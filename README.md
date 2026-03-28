@@ -12,6 +12,8 @@
 
 Si se tiene una cuenta con suscripción activa para APS y ACC saltar al PASO 2
 
+---
+
 ## I - PRERREQUISITOS
 
 ### 0.1 - Instalar Python
@@ -173,10 +175,12 @@ APS_CALLBACK_URL=http://localhost:8080/api/auth/callback
 ```
 
 3. Guardar y cambiar el nombre del archivo a `.env`
----
+
 > Sin las credenciales del cliente, la aplicación no obtendrá el permiso para acceder al ACC
 
 4. En el archivo `extractor.py`, línea 5 -> en la lista, agregar o quitar los parámetros que se quieran exportar.
+
+---
 
 ## PASO 8 - Ejecutar
 
