@@ -146,3 +146,51 @@ Para que la app de APS tenga acceso al ACC se tiene que hacer una integración m
 3. Click en **Añadir Integración Personalizada**
 4. Completar el **Client ID** (el de la app del paso 4) e ingresar un nombre de la integración -> **Continuar**
 5. Ante la advertencia de permiso dar a **Continuar De Todos Modos**
+
+---
+
+## III - CÓDIGO
+
+## PASO 6 - Descargar el repositorio
+
+1. Ir a la carpeta donde se guardarán los archivos y abrir la **consola de windows**, Win + R, `cmd` desde ahí.
+2. Clonar el repositorio, pegar en la consola:
+
+```bash
+git clone https://github.com/tu-usuario/aps-properties-extractor.git
+```
+---
+
+## PASO 7 - Configuración
+
+1. En la misma carpeta crear un archivo `.txt` desde donde se leeran las credenciales para la autentificación
+2. Editar el contenido para que sea:
+
+```env
+APS_CLIENT_ID=CLIENT_ID_DE_LA_APP_REEMPLAZAR
+APS_CLIENT_SECRET=CLIENT_SECRET_DE_LA_APP_REEMPLAZAR
+APS_CALLBACK_URL=http://localhost:8080/api/auth/callback
+```
+
+3. Guardar y cambiar el nombre del archivo a `.env`
+---
+> Sin las credenciales del cliente, la aplicación no obtendrá el permiso para acceder al ACC
+
+4. En el archivo `extractor.py`, línea 5 -> en la lista, agregar o quitar los parámetros que se quieran exportar.
+
+## PASO 8 - Ejecutar
+
+1. En la misma carpeta, abrir nuevamente la **consola de windows**, Win + R, `cmd`
+2. Ejecutar:
+
+```bash
+python main.py
+```
+
+3. El script abre el login de Autodesk -> iniciar sesión con la **misma cuenta** que tiene acceso al ACC
+4. Finalmente, los resultados se exportan en el `.txt` en la carpeta `resultados`
+
+---
+
+## IV - RESULTADOS
+
