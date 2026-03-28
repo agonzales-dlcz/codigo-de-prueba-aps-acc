@@ -192,7 +192,7 @@ python main.py
 ```
 
 3. El script abre el login de Autodesk -> iniciar sesión con la **misma cuenta** que tiene acceso al ACC
-4. Finalmente, los resultados se exportan en el `.txt` en la carpeta `resultados`
+4. Finalmente, los resultados se exportan automática en el `.txt` en la carpeta `resultados` con el nombre del `modelo + hora de exportación + .txt`
 
 ---
 
