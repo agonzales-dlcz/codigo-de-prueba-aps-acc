@@ -18,7 +18,6 @@ Si se tiene una cuenta con suscripción activa para APS y ACC saltar al PASO 2
 
 Descargar directamente el instalador del 3.14 (64-bit) en [Python 3.14.0](https://www.python.org/ftp/python/3.14.0/python-3.14.0-amd64.exe).
 
-> [!IMPORTANT]
 > En la instalación, marcar el check **"Add Python to PATH"** antes de hacer clic en **Install Now**. Si no se hizo se puede volver a instalar y añadir el check.
 
 ### 0.2 - Verificar las variables de entorno
@@ -30,7 +29,6 @@ python --version
 pip --version
 ```
 
-> [!TIP]
 > Si el comando no se reconoce, cerrar y volveer a abrir la terminal —> los cambios al PATH no se aplican a sesiones ya abiertas.
 
 ### 0.3 - Instalar dependencias
