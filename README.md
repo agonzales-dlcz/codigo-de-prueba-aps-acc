@@ -192,5 +192,6 @@ python main.py
 
 ---
 
-## IV - RESULTADOS
+## Licencia
 
+MIT
