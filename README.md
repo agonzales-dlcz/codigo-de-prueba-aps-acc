@@ -1,4 +1,3 @@
-![License](https://img.shields.io/badge/license-MIT-yellow)
 ![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
 ![ACC](https://img.shields.io/badge/ACC-Autodesk_Construction_Cloud-FF6C00?logo=autodesk&logoColor=white)
 ![ACC Model Properties](https://img.shields.io/badge/ACC-Model_Properties_API-FF6C00?logo=autodesk&logoColor=white)
