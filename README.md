@@ -194,7 +194,3 @@ python main.py
 4. Finalmente, los resultados se exportan automática en el `.txt` en la carpeta `resultados` con el nombre del `modelo + hora de exportación + .txt`
 
 ---
-
-## Licencia
-
-MIT
