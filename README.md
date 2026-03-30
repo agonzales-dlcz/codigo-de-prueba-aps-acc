@@ -159,7 +159,7 @@ Para que la app de APS tenga acceso al ACC se tiene que hacer una integración m
 2. Clonar el repositorio, pegar en la consola:
 
 ```bash
-git clone https://github.com/tu-usuario/aps-properties-extractor.git
+git clone https://github.com/agonzales-dlcz/codigo-de-prueba-aps-acc.git
 ```
 ---
 
