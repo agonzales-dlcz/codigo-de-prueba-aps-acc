@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-# -> lista de parámetros a leer
+# -> lista de parámetros a leer, si hay parámetros compartidos se pueden agregar acá sin problema
 PARAMETROS = [
     "IfcGUID",
     "Type Name",
