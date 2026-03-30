@@ -155,8 +155,8 @@ Para que la app de APS tenga acceso al ACC se tiene que hacer una integración m
 
 ## PASO 6 - Descargar el repositorio
 
-1. Ir a la carpeta donde se guardarán los archivos y abrir la **consola de windows**, Win + R, `cmd` desde ahí.
-2. Clonar el repositorio, pegar en la consola:
+1. Ir a la carpeta donde se descargará la carpeta **codigo-de-prueba-aps-acc** con todos los archivos del repositorio y abrir la **consola de windows**, Win + R, `cmd` desde ahí.
+2. Para clonar el repositorio, pegar en la consola:
 
 ```bash
 git clone https://github.com/agonzales-dlcz/codigo-de-prueba-aps-acc.git
@@ -165,7 +165,7 @@ git clone https://github.com/agonzales-dlcz/codigo-de-prueba-aps-acc.git
 
 ## PASO 7 - Configuración
 
-1. En la misma carpeta crear un archivo `.txt` desde donde se leeran las credenciales para la autentificación
+1. Dentro de la carpeta **codigo-de-prueba-aps-acc** descargada crear un txt con cualquier nombre desde donde se leeran las credenciales para la autentificación
 2. Editar el contenido para que sea:
 
 ```env
@@ -174,7 +174,7 @@ APS_CLIENT_SECRET=CLIENT_SECRET_DE_LA_APP_REEMPLAZAR
 APS_CALLBACK_URL=http://localhost:8080/api/auth/callback
 ```
 
-3. Guardar y cambiar el nombre del archivo a `.env`
+3. Guardar y cambiar el nombre del archivo a exactamente **.env**
 
 > Sin las credenciales del cliente, la aplicación no obtendrá el permiso para acceder al ACC
 
