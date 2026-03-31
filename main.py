@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 
 from auth import obtener_token
 from aps import agente_aps
-from iterador import encontrar_primer_modelo
-from extractor import guardar_txt
+from iterador import encontrar_todos_los_modelos
+from extractor import acumular_filas, guardar_csv
 
 # -> lee info de .env
 load_dotenv()
@@ -24,26 +24,47 @@ def main():
 
     agente = agente_aps(token, BASE_URL)
 
-    # 2 -> buscar primer rvt con traducción svf2 terminada
-    urn_modelo, nombre_modelo = encontrar_primer_modelo(agente)
+    # 2 -> buscar todos los .rvt con traducción svf2 terminada en todos los hubs/proyectos/carpetas/subcarpetas
+    lista_de_modelos = encontrar_todos_los_modelos(agente)
 
-    if not urn_modelo:
+    if not lista_de_modelos:
         print("\n-> no hay modelos con traducción svf2 terminada para leer")
         return
 
-    print(f"{nombre_modelo} -> OK\n")
+    print(f"\n-> {len(lista_de_modelos)} modelo(s) listos para leer\n")
 
-    # 3 -> obtener guid de la primera vista 3d
-    metadata_del_modelo = agente.get(f"/modelderivative/v2/designdata/{urn_modelo}/metadata")
-    lista_de_vistas = metadata_del_modelo["data"]["metadata"]
-    vista_3d = next((metadata_de_vista for metadata_de_vista in lista_de_vistas if metadata_de_vista.get("role") == "3d"), lista_de_vistas[0]) # -> retorna el primer 3d, si no hay la primera vista en general
-    guid_vista_3d = vista_3d["guid"]
+    filas_acumuladas = [] # -> acumula filas de todos los modelos antes de escribir el csv
 
-    # 4 -> descargar collection de elementos de la vista
-    colector_de_elementos = agente.obtener_colector_de_la_vista(urn_modelo, guid_vista_3d)
+    for urn_modelo, nombre_modelo in lista_de_modelos:
+        print(f"leyendo {nombre_modelo} ...")
 
-    # 5 -> guardar txt de salida
-    guardar_txt(colector_de_elementos, nombre_de_modelo=nombre_modelo, carpeta_de_salida=PATH_DE_CARPETA_DE_SALIDA)
+        # 3 -> obtener guid de la primera vista 3d
+        metadata_del_modelo = agente.get(f"/modelderivative/v2/designdata/{urn_modelo}/metadata")
+        lista_de_vistas = metadata_del_modelo["data"]["metadata"]
+
+        if not lista_de_vistas: # -> sin vistas disponibles -> omitir
+            print(f"{nombre_modelo} -> sin vistas disponibles, omitido")
+            continue
+
+        vista_3d = next((metadata_de_vista for metadata_de_vista in lista_de_vistas if metadata_de_vista.get("role") == "3d"), lista_de_vistas[0]) # -> retorna el primer 3d, si no hay la primera vista en general
+        guid_vista_3d = vista_3d["guid"]
+
+        # 4 -> descargar collection de elementos de la vista
+        colector_de_elementos = agente.obtener_colector_de_la_vista(urn_modelo, guid_vista_3d)
+
+        if not colector_de_elementos: # -> colección vacía -> omitir
+            print(f"{nombre_modelo} -> colección vacía, omitido")
+            continue
+
+        # 5 -> acumular filas del modelo en la lista compartida
+        nombre_modelo_sin_extension = nombre_modelo.split(".")[0] # -> sin .rvt
+        acumular_filas(colector_de_elementos, nombre_modelo_sin_extension, filas_acumuladas)
+
+    # 6 -> escribir csv único con todos los modelos y abrirlo
+    if filas_acumuladas:
+        guardar_csv(filas_acumuladas, carpeta_de_salida=PATH_DE_CARPETA_DE_SALIDA)
+    else:
+        print("\n-> no se acumularon elementos para guardar")
 
 if __name__ == "__main__":
     main()
