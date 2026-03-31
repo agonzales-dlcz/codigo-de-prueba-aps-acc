@@ -39,45 +39,49 @@ def _construir_urn(agente, proyecto_id: str, item: dict): # -> método privado
     return None
 
 
-def iterar_modelos(agente, proyecto_id: str, carpeta_id: str):
+def _iterar_carpeta_recursivo(agente, proyecto_id: str, carpeta_id: str, modelos_encontrados: list):
+    # -> recorre carpeta y subcarpetas recursivamente, acumula todos los .rvt con traducción terminada
 
     try:
         contenido_de_carpeta = agente.get(f"/data/v1/projects/{proyecto_id}/folders/{carpeta_id}/contents")["data"]
     except:
-        return None, None
+        return # -> si falla la carpeta se omite y continúa
 
     for item in contenido_de_carpeta:
-        tipo_del_item   = item.get("type", "")
-        indice_de_atributos  = item.get("attributes", {})
+        tipo_del_item  = item.get("type", "")
+        indice_de_atributos = item.get("attributes", {})
 
         nombre_del_item = ( indice_de_atributos.get("name") or indice_de_atributos.get("displayName") or indice_de_atributos.get("fileName") or "")
 
-        if tipo_del_item == "items" and nombre_del_item.lower().endswith(".rvt"): # es "items" -> archivo y es .rvt
+        if tipo_del_item == "folders": # -> es subcarpeta -> entrar recursivamente
+            _iterar_carpeta_recursivo(agente, proyecto_id, item["id"], modelos_encontrados)
+
+        elif tipo_del_item == "items" and nombre_del_item.lower().endswith(".rvt"): # -> es archivo .rvt
             urn_rvt = _construir_urn(agente, proyecto_id, item)
             if not urn_rvt:
                 continue
 
             estado = obtener_estado_de_traduccion(agente, urn_rvt)
 
-            if estado in ("success", "complete"):
-                return urn_rvt, nombre_del_item
+            if estado in ("success", "complete"): # -> traducción terminada -> guardar
+                modelos_encontrados.append((urn_rvt, nombre_del_item))
 
-            elif estado in ("inprogress", "pending"):
-                print(f"{nombre_del_item} -> traducción en proceso")
-                continue
+            elif estado in ("inprogress", "pending"): # -> traducción en proceso -> omitir
+                print(f"{nombre_del_item} -> traducción en proceso, omitido")
 
-            else:
+            else: # -> sin traducción -> disparar
                 traduccion_disparada = disparar_traduccion(agente, urn_rvt)
                 if traduccion_disparada:
                     print(f"{nombre_del_item} -> traducción iniciada")
                 else:
                     print(f"{nombre_del_item} -> error al iniciar traducción")
-                continue
-
-    return None, None
 
 
-def encontrar_primer_modelo(agente):
+def encontrar_todos_los_modelos(agente):
+    # -> recorre todos los hubs, proyectos y carpetas y devuelve lista de (urn, nombre) de todos los .rvt listos
+
+    modelos_encontrados = []
+
     lista_de_hubs = agente.get("/project/v1/hubs")["data"]
 
     for hub in lista_de_hubs:
@@ -89,8 +93,6 @@ def encontrar_primer_modelo(agente):
             lista_de_carpetas = agente.get(f"/project/v1/hubs/{hub_id}/projects/{proyecto_id}/topFolders")["data"]
 
             for carpeta in lista_de_carpetas:
-                urn_rvt, nombre_rvt = iterar_modelos(agente, proyecto_id, carpeta["id"])
-                if urn_rvt:
-                    return urn_rvt, nombre_rvt
+                _iterar_carpeta_recursivo(agente, proyecto_id, carpeta["id"], modelos_encontrados)
 
-    return None, None
+    return modelos_encontrados
