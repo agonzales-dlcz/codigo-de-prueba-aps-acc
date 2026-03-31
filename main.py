@@ -36,7 +36,7 @@ def main():
     filas_acumuladas = [] # -> acumula filas de todos los modelos antes de escribir el csv
 
     for urn_modelo, nombre_modelo in lista_de_modelos:
-        print(f"leyendo {nombre_modelo} ...")
+        print(f"leyendo {nombre_modelo}")
 
         # 3 -> obtener guid de la primera vista 3d
         metadata_del_modelo = agente.get(f"/modelderivative/v2/designdata/{urn_modelo}/metadata")
