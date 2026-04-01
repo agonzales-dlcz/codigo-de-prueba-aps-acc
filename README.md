@@ -1,4 +1,4 @@
-![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![ACC](https://img.shields.io/badge/ACC-Autodesk_Construction_Cloud-FF6C00?logo=autodesk&logoColor=white)
 ![ACC Model Properties](https://img.shields.io/badge/ACC-Model_Properties_API-FF6C00?logo=autodesk&logoColor=white)
 ![APS](https://img.shields.io/badge/APS-Autodesk_Platform_Services-0696D7?logo=autodesk&logoColor=white)
