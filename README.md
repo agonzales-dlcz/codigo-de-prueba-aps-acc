@@ -294,7 +294,7 @@ APS_CALLBACK_URL=http://localhost:8080/api/auth/callback
 
 ## PASO 8 - Ejecutar
 
-1. En la misma carpeta, abrir nuevamente la **consola de windows**, Win + R, `cmd` (como en el Paso 6 [punto 1].
+1. Dentro de la carpeta **codigo-de-prueba-aps-acc**, abrir nuevamente la **consola de windows**, Win + R, `cmd` (como en el Paso 6 [punto 1].
 2. Ejecutar:
 
 ```bash
